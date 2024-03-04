@@ -60,6 +60,7 @@
             import matplotlib.pyplot as plt
             import numpy as np
             from pyodide.http import open_url
+            from PIL import Image
 
             # Load pre-trained models and datasets
             url1 = "https://rcalix1.github.io/ProbabilityDensityFunctionsFromNeuralNets/experiments/2023/july2023/GANs/PyScriptExamples/example3/PD_ids_train.csv"
@@ -97,4 +98,23 @@
                 symmetry = float(Element('symmetryInput').element.value)
                 conditions_list = [weight, color, roundness, texture, symmetry]
                 np_conditions_list = np.array(conditions_list)
-                np_conditions_list = np.expand_dims(np_conditions_list, axis
+                np_conditions_list = np.expand_dims(np_conditions_list, axis=0)
+                return np_conditions_list
+
+            def my_gen_function():
+                test_x = get_np_conditions_vector()
+                generated_img = predict(test_x)
+                
+                # Resize image to a fixed size
+                resized_img = Image.fromarray(generated_img).resize((100, 100))
+                
+                fig1, ax1 = plt.subplots()
+                plt.imshow(resized_img)
+                plt.colorbar(label="Colorbar", orientation="vertical")
+                ax1.set_title(str(test_x))
+
+                display(fig1, target="mpl")
+        </script>
+    </section>
+</body>
+</html>
