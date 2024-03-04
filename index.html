@@ -49,7 +49,8 @@
         <py-config>
             packages = [
                 "matplotlib",
-                "pandas",
+                "numpy",
+                "PIL"
             ]
             plugins = [
                 "https://pyscript.net/latest/plugins/python/py_tutor.py"
@@ -59,61 +60,28 @@
         <script type="py">
             import matplotlib.pyplot as plt
             import numpy as np
-            from pyodide.http import open_url
             from PIL import Image
 
-            # Load pre-trained models and datasets
-            url1 = "https://rcalix1.github.io/ProbabilityDensityFunctionsFromNeuralNets/experiments/2023/july2023/GANs/PyScriptExamples/example3/PD_ids_train.csv"
-            pd_ids_train = pd.read_csv(open_url(url1))
-            pd_ids_train_np = pd_ids_train.to_numpy()
-            pd_ids_train_np = pd_ids_train_np[1:, 1:]
-
-            url2 = "https://rcalix1.github.io/ProbabilityDensityFunctionsFromNeuralNets/experiments/2023/july2023/GANs/PyScriptExamples/example3/PD_conditions_train.csv"
-            pd_conditions_train = pd.read_csv(open_url(url2))
-            pd_conditions_train_np = pd_conditions_train.to_numpy()
-            pd_conditions_train_np = pd_conditions_train_np[1:, 1:]
-
-            url3 = "https://rcalix1.github.io/ProbabilityDensityFunctionsFromNeuralNets/experiments/2023/july2023/GANs/PyScriptExamples/example3/PD_imgs_np_train.csv"
-            pd_imgs_np_train = pd.read_csv(open_url(url3))
-            pd_imgs_np_train_np = pd_imgs_np_train.to_numpy()
-            pd_imgs_np_train_np = pd_imgs_np_train_np[1:, 1:]
-
-            def euclidean_distance(v1, v2):
-                return np.sqrt(np.sum((v1 - v2)**2))
-
-            def predict(test_x):
-                distances = [euclidean_distance(test_x, x) for x in pd_conditions_train_np]
-                k = 3
-                k_neighbor_indices = np.argsort(distances)[:k]
-                selected_imgs_to_avg = [pd_imgs_np_train_np[i].reshape((140, 39)) for i in k_neighbor_indices]
-                avg_gen_img = np.mean(np.array(selected_imgs_to_avg), axis=0)
-                avg_gen_img = avg_gen_img.astype(int)
-                return avg_gen_img
-
-            def get_np_conditions_vector():
+            def my_gen_function():
                 weight = float(Element('weightInput').element.value)
                 color = float(Element('colorInput').element.value)
                 roundness = float(Element('roundnessInput').element.value)
                 texture = float(Element('textureInput').element.value)
                 symmetry = float(Element('symmetryInput').element.value)
-                conditions_list = [weight, color, roundness, texture, symmetry]
-                np_conditions_list = np.array(conditions_list)
-                np_conditions_list = np.expand_dims(np_conditions_list, axis=0)
-                return np_conditions_list
 
-            def my_gen_function():
-                test_x = get_np_conditions_vector()
+                test_x = np.array([weight, color, roundness, texture, symmetry]).reshape(1, -1)
                 generated_img = predict(test_x)
-                
-                # Resize image to a fixed size
-                resized_img = Image.fromarray(generated_img).resize((100, 100))
-                
-                fig1, ax1 = plt.subplots()
-                plt.imshow(resized_img)
-                plt.colorbar(label="Colorbar", orientation="vertical")
-                ax1.set_title(str(test_x))
 
-                display(fig1, target="mpl")
+                fig, ax = plt.subplots()
+                ax.imshow(generated_img)
+                ax.set_title("Generated Image")
+                plt.axis("off")
+                plt.show()
+
+            # Mocking the predict function for demonstration
+            def predict(test_x):
+                return np.random.rand(100, 100)
+
         </script>
     </section>
 </body>
