@@ -1,102 +1,66 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Generate Images of Fruit</title>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/x-icon" href="./favicon.png" />
-    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-    <link rel="stylesheet" href="./assets/css/examples.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Fruit Images</title>
+    <!-- Add any additional CSS stylesheets or libraries here -->
+    <style>
+        /* Add your custom CSS styles here */
+    </style>
 </head>
 <body>
-    <nav class="navbar" style="background-color: #000000">
-        <div class="app-header">
-            <a href="">
-                <img src="./logo.png" class="logo" />
-            </a>
-            <a class="title" href="" style="color: #f0ab3c">KNN avg Generator</a>
+    <h1>Generate Fruit Images</h1>
+    <form id="imageForm">
+        <div>
+            <label for="weight">Weight:</label>
+            <input type="number" id="weight" name="weight" value="0">
         </div>
-    </nav>
+        <div>
+            <label for="color">Color:</label>
+            <input type="text" id="color" name="color" value="">
+        </div>
+        <div>
+            <label for="roundness">Roundness:</label>
+            <input type="range" id="roundness" name="roundness" min="0" max="100" value="50">
+        </div>
+        <div>
+            <label for="texture">Texture Smoothness:</label>
+            <input type="range" id="texture" name="texture" min="0" max="100" value="50">
+        </div>
+        <div>
+            <label for="symmetry">Symmetry:</label>
+            <input type="number" id="symmetry" name="symmetry" value="0">
+        </div>
+        <button type="button" id="generateButton">Generate</button>
+    </form>
+    <div id="output">
+        <!-- Generated images will be displayed here -->
+    </div>
+    <!-- Add any additional scripts or libraries here -->
+    <script>
+        // Add your JavaScript code here
+        document.getElementById('generateButton').addEventListener('click', function() {
+            // Retrieve input values
+            var weight = document.getElementById('weight').value;
+            var color = document.getElementById('color').value;
+            var roundness = document.getElementById('roundness').value;
+            var texture = document.getElementById('texture').value;
+            var symmetry = document.getElementById('symmetry').value;
 
-    <div>Type conditions here: </div>
-    <table>
-        <tr>
-            <td> Weight </td>
-            <td> <input type="text" style="border:3px solid #F7730E;" value="0" id="weightInput"/> </td>
+            // Perform image generation based on input values
+            generateImages(weight, color, roundness, texture, symmetry);
+        });
 
-            <td> Color </td>
-            <td> <input type="text" style="border:3px solid #F7730E;" value="175" id="colorInput"/> </td>
-
-            <td> Roundness </td>
-            <td> <input type="text" style="border:3px solid #F7730E;" value="0" id="roundnessInput"/> </td>
-
-            <td> Texture </td>
-            <td> <input type="text" style="border:3px solid #F7730E;" value="0" id="textureInput"/> </td>
-
-            <td> Symmetry </td>
-            <td> <input type="text" style="border:3px solid #F7730E;" value="300" id="symmetryInput"/> </td>
-
-            <td> RGB (comma-separated) </td>
-            <td> <input type="text" style="border:3px solid #F7730E;" value="255,255,255" id="rgbInput"/> </td>
-        </tr>
-    </table>
-
-    <button id="generateButton" py-click="my_gen_function()" class="py-button">Generate</button>
-
-    <p id="current-val"></p>
-    <div id="test-output"></div>
-    <div id="pandas-output"></div>
-
-    <section class="pyscript"> 
-        <div id="mpl"></div>
-
-        <py-config>
-            packages = [
-                "matplotlib",
-                "numpy",
-                "PIL"
-            ]
-            plugins = [
-                "https://pyscript.net/latest/plugins/python/py_tutor.py"
-            ]
-        </py-config>
-
-        <script type="py">
-            import matplotlib.pyplot as plt
-            import numpy as np
-            from PIL import Image
-
-            def my_gen_function():
-                weight = float(Element('weightInput').element.value)
-                color = float(Element('colorInput').element.value)
-                roundness = float(Element('roundnessInput').element.value)
-                texture = float(Element('textureInput').element.value)
-                symmetry = float(Element('symmetryInput').element.value)
-
-                rgb_values = Element('rgbInput').element.value.split(',')
-                rgb = [int(x) for x in rgb_values]
-
-                test_x = np.array([weight, color, roundness, texture, symmetry])
-                generated_img = generate_image(test_x, rgb)
-
-                fig, ax = plt.subplots()
-                ax.imshow(generated_img)
-                ax.set_title("Generated Image")
-                plt.axis("off")
-                plt.show()
-
-            # Function to generate image using RGB values
-            def generate_image(test_x, rgb):
-                # Here, you can use test_x and rgb to generate the image
-                # For demonstration, let's create a random image
-                width = 100
-                height = 100
-                img = np.zeros((height, width, 3), dtype=np.uint8)
-                img[:, :, 0] = rgb[0]
-                img[:, :, 1] = rgb[1]
-                img[:, :, 2] = rgb[2]
-                return img
-
-        </script>
-    </section>
+        function generateImages(weight, color, roundness, texture, symmetry) {
+            // Replace this with your image generation logic
+            // You can use AJAX to send input values to the server and receive generated images
+            // Then, display the generated images in the 'output' div
+            var outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = 'Images generated based on input values: <br>';
+            // Example: outputDiv.innerHTML += '<img src="generated_image_1.jpg">';
+            // Repeat for each generated image
+        }
+    </script>
 </body>
 </html>
