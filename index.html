@@ -53,13 +53,39 @@
         });
 
         function generateImages(weight, color, roundness, texture, symmetry) {
-            // Replace this with your image generation logic
-            // You can use AJAX to send input values to the server and receive generated images
-            // Then, display the generated images in the 'output' div
-            var outputDiv = document.getElementById('output');
-            outputDiv.innerHTML = 'Images generated based on input values: <br>';
-            // Example: outputDiv.innerHTML += '<img src="generated_image_1.jpg">';
-            // Repeat for each generated image
+    // Send AJAX request to the server
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/generate_images', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Images received successfully
+                var images = JSON.parse(xhr.responseText);
+                displayImages(images);
+            } else {
+                // Handle error
+                console.error('Error:', xhr.status);
+            }
+        }
+    };
+    // Send input values as JSON payload
+    var data = JSON.stringify({
+        weight: weight,
+        color: color,
+        roundness: roundness,
+        texture: texture,
+        symmetry: symmetry
+    });
+    xhr.send(data);
+}
+
+function displayImages(images) {
+    var outputDiv = document.getElementById('output');
+    outputDiv.innerHTML = 'Images generated based on input values: <br>';
+    // Display each generated image
+    images.forEach(function (imageSrc) {
+        outputDiv.innerHTML += '<img src="' + imageSrc + '">';
         }
     </script>
 </body>
