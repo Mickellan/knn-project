@@ -102,6 +102,7 @@
                     url1 = ("https://Mickellan.github.io/knn-project/PD_ids_train.csv")
                     pd_ids_train = pd.read_csv(open_url(url1))
                     pd_ids_train_np = pd_ids_train.to_numpy()
+                    Element('test-output').element.innerText =  str( pd_ids_train_np.shape )
                     pd_ids_train_np          = pd_ids_train_np[1:, 1:]
 
                     url2 = ("https://Mickellan.github.io/knn-project/PD_conditions_train.csv")
