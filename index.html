@@ -86,7 +86,7 @@
 
                 <script type="py">
 
-                    
+                   
                     import matplotlib.pyplot as plt
                     import matplotlib.tri as tri
                     import numpy as np
@@ -98,7 +98,7 @@
                  
                     ###########################################
 
-
+                    Element('test-output').element.innerText =  "error 1"
                     url1 = ("https://Mickellan.github.io/knn-project/PD_ids_train.csv")
                     pd_ids_train = pd.read_csv(open_url(url1))
                     pd_ids_train_np = pd_ids_train.to_numpy()
